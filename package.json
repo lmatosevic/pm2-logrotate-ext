@@ -1,16 +1,17 @@
 {
   "name": "pm2-logrotate",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Module to rotate logs of every pm2 application",
   "main": "app.js",
   "dependencies": {
-    "moment-timezone": "0.5.5",
-    "node-schedule": "1.1.1",
+    "graceful-fs": "^4.1.11",
+    "moment-timezone": "^0.5.13",
+    "node-schedule": "^1.2.3",
     "pm2": "latest",
     "pmx": "latest"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha tests"
   },
   "author": "Joni SHKURTI",
   "repository": {
@@ -36,5 +37,10 @@
     "workerInterval": "30",
     "rotateInterval": "0 0 * * *",
     "rotateModule": true
+  },
+  "devDependencies": {
+    "async": "^2.5.0",
+    "mocha": "^3.4.2",
+    "standard": "^10.0.2"
   }
 }
