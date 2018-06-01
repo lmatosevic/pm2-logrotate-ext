@@ -4,6 +4,7 @@ PM2 module to automatically rotate logs of processes managed by PM2.
 
 New features in this forked version:
 - Added new configuration flag `forced` which specifies if logs should be rotated on `rotateInterval` cron.
+- Fixed bugs with initializing default values for boolean configuration flags
 
 ## Install
 
