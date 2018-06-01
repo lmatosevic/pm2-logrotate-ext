@@ -1,15 +1,17 @@
-
 ## Description
 
 PM2 module to automatically rotate logs of processes managed by PM2.
 
+New features in this forked version:
+- Added new configuration flag `forced` which specifies if logs should be rotated on `rotateInterval` cron.
+
 ## Install
 
-    pm2 install pm2-logrotate
+    pm2 install pm2-logrotate-ext
 
 To install a specific version use the `@<version>` suffix
 
-    pm2 install pm2-logrotate@2.2.0
+    pm2 install pm2-logrotate-ext@2.2.0
 
 ## Configure
 
@@ -22,6 +24,7 @@ To install a specific version use the `@<version>` suffix
 - `rotateInterval` (Defaults to `0 0 * * *` everyday at midnight): This cron is used to a force rotate when executed.
 We are using [node-schedule](https://github.com/node-schedule/node-schedule) to schedule cron, so all valid cron for [node-schedule](https://github.com/node-schedule/node-schedule) is valid cron for this option. Cron style :
 - `TZ` (Defaults to system time): This is the standard [tz database timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) used to offset the log file saved. For instance, a value of `Etc/GMT-1`, with an hourly log, will save a file at hour `14` GMT with hour `13` GMT-1 in the log name.
+- `forced` (Defaults to `true`): Enable or disable forced rotation on `rotateInterval`, if set to false, rotation of the log files will occur only when `max_size` limit is reached.
 
 ```
 *    *    *    *    *    *
@@ -38,9 +41,9 @@ We are using [node-schedule](https://github.com/node-schedule/node-schedule) to 
 ### How to set these values ?
 
  After having installed the module you have to type :
-`pm2 set pm2-logrotate:<param> <value>`
+`pm2 set pm2-logrotate-ext:<param> <value>`
 
 e.g:
-- `pm2 set pm2-logrotate:max_size 1K` (1KB)
-- `pm2 set pm2-logrotate:compress true` (compress logs when rotated)
-- `pm2 set pm2-logrotate:rotateInterval '*/1 * * * *'` (force rotate every minute)
+- `pm2 set pm2-logrotate-ext:max_size 1K` (1KB)
+- `pm2 set pm2-logrotate-ext:compress true` (compress logs when rotated)
+- `pm2 set pm2-logrotate-ext:rotateInterval '*/1 * * * *'` (force rotate every minute)

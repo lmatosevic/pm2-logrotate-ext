@@ -1,7 +1,7 @@
 {
-  "name": "pm2-logrotate",
+  "name": "pm2-logrotate-ext",
   "version": "2.6.0",
-  "description": "Module to rotate logs of every pm2 application",
+  "description": "Module to rotate logs of every pm2 application. With some extended features.",
   "main": "app.js",
   "dependencies": {
     "graceful-fs": "^4.1.11",
@@ -14,20 +14,25 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Joni SHKURTI",
+  "contributors": [
+    {
+      "name": "Luka Matosevic"
+    }
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pm2-hive/pm2-logrotate.git"
+    "url": "git+https://github.com/Lujo5/pm2-logrotate-ext.git"
   },
   "bugs": {
-    "url": "https://github.com/pm2-hive/pm2-logrotate/issues"
+    "url": "https://github.com/Lujo5/pm2-logrotate-ext/issues"
   },
-  "homepage": "https://github.com/pm2-hive/pm2-logrotate",
+  "homepage": "https://github.com/Lujo5/pm2-logrotate-ext",
   "license": "MIT",
   "apps": [
     {
-      "name": "pm2-logrotate",
+      "name": "pm2-logrotate-ext",
       "script": "app.js",
-      "max_memory_restart" : "500M"
+      "max_memory_restart": "500M"
     }
   ],
   "config": {
@@ -37,6 +42,7 @@
     "dateFormat": "YYYY-MM-DD_HH-mm-ss",
     "workerInterval": "30",
     "rotateInterval": "0 0 * * *",
-    "rotateModule": true
+    "rotateModule": true,
+    "forced": true
   }
 }
