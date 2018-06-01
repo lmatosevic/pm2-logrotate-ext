@@ -214,7 +214,7 @@ pm2.connect(function (err) {
         proceed_file(PM2_ROOT_PATH + '/agent.log', false);
     }, WORKER_INTERVAL);
 
-    // register the cron to force rotate file if rotateOnInterval flag is true
+    // register the cron to force rotate file if forced flag is true
     if (FORCED) {
         scheduler.scheduleJob(ROTATE_CRON, function () {
             // get list of process managed by pm2
