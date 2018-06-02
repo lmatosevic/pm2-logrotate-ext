@@ -1,10 +1,11 @@
 ## Description
 
-PM2 module to automatically rotate logs of processes managed by PM2.
+PM2 module to automatically rotate logs of processes managed by PM2. This is a forked version of original [pm2-logrotate](https://github.com/pm2-hive/pm2-logrotate) with some extended features.
 
 New features in this forked version:
 - Added new configuration flag `forced` which specifies if logs should be rotated on `rotateInterval` cron.
-- Fixed bugs with initializing default values for boolean configuration flags
+
+All credits for the original rotator go to the pm2-logrotate [authors and contributors](https://github.com/pm2-hive/pm2-logrotate/graphs/contributors)
 
 ## Install
 
