@@ -9,7 +9,7 @@ var zlib = require('zlib');
 var conf = pmx.initModule({
     widget: {
         type: 'generic',
-        logo: 'https://raw.githubusercontent.com/Lujo5/pm2-logrotate-ext/master/pres/logo.png',
+        logo: 'https://raw.githubusercontent.com/lmatosevic/pm2-logrotate-ext/master/pres/logo.png',
         theme: ['#111111', '#1B2228', '#31C2F1', '#807C7C'],
         el: {
             probes: false,

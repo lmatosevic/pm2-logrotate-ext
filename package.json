@@ -21,12 +21,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lujo5/pm2-logrotate-ext.git"
+    "url": "git+https://github.com/lmatosevic/pm2-logrotate-ext.git"
   },
   "bugs": {
-    "url": "https://github.com/Lujo5/pm2-logrotate-ext/issues"
+    "url": "https://github.com/lmatosevic/pm2-logrotate-ext/issues"
   },
-  "homepage": "https://github.com/Lujo5/pm2-logrotate-ext",
+  "homepage": "https://github.com/lmatosevic/pm2-logrotate-ext",
   "license": "MIT",
   "apps": [
     {
