@@ -40,10 +40,10 @@ var WORKER_INTERVAL = isNaN(parseInt(conf.workerInterval)) ? 30 * 1000 :
 var SIZE_LIMIT = get_limit_size(); // default : 10MB
 var ROTATE_CRON = conf.rotateInterval || "0 0 * * *"; // default : every day at midnight
 var RETAIN = isNaN(parseInt(conf.retain)) ? undefined : parseInt(conf.retain); // All
-var COMPRESSION = (typeof JSON.parse(conf.compress) === 'boolean') ? JSON.parse(conf.compress) : false; // Do not compress by default
+var COMPRESSION = JSON.parse(conf.compress) || false; // Do not compress by default
 var DATE_FORMAT = conf.dateFormat || 'YYYY-MM-DD_HH-mm-ss';
 var TZ = conf.TZ;
-var ROTATE_MODULE = (typeof JSON.parse(conf.rotateModule) === 'boolean') ? JSON.parse(conf.rotateModule) : true;
+var ROTATE_MODULE = JSON.parse(conf.rotateModule) || true;
 var FORCED = (typeof JSON.parse(conf.forced) === 'boolean') ? JSON.parse(conf.forced) : true;
 var WATCHED_FILES = [];
 
@@ -200,13 +200,19 @@ pm2.connect(function (err) {
         pm2.list(function (err, apps) {
             if (err) return console.error(err.stack || err);
 
-            // rotate log that are bigger than the limit
-            apps.forEach(function (app) {
-                // if its a module and the rotate of module is disabled, ignore
-                if (typeof(app.pm2_env.axm_options.isModule) !== 'undefined' && !ROTATE_MODULE) return;
+          var appMap = {};
+          // rotate log that are bigger than the limit
+          apps.forEach(function(app) {
+            // if its a module and the rotate of module is disabled, ignore
+            if (typeof(app.pm2_env.axm_options.isModule) !== 'undefined' && !ROTATE_MODULE) return ;
 
-                proceed_app(app, false);
-            });
+            // if apps instances are multi and one of the instances has rotated, ignore
+            if(app.pm2_env.instances > 1 && appMap[app.name]) return;
+
+            appMap[app.name] = app;
+
+            proceed_app(app, false);
+          });
         });
 
         // rotate pm2 log
@@ -216,20 +222,26 @@ pm2.connect(function (err) {
 
     // register the cron to force rotate file if forced flag is true
     if (FORCED) {
-        scheduler.scheduleJob(ROTATE_CRON, function () {
-            // get list of process managed by pm2
-            pm2.list(function (err, apps) {
-                if (err) return console.error(err.stack || err);
+      scheduler.scheduleJob(ROTATE_CRON, function () {
+        // get list of process managed by pm2
+        pm2.list(function(err, apps) {
+          if (err) return console.error(err.stack || err);
 
-                // force rotate for each app
-                apps.forEach(function (app) {
-                    // if its a module and the rotate of module is disabled, ignore
-                    if (typeof(app.pm2_env.axm_options.isModule) !== 'undefined' && !ROTATE_MODULE) return;
+          var appMap = {};
+          // force rotate for each app
+          apps.forEach(function(app) {
+            // if its a module and the rotate of module is disabled, ignore
+            if (typeof(app.pm2_env.axm_options.isModule) !== 'undefined' && !ROTATE_MODULE) return ;
 
-                    proceed_app(app, true);
-                });
-            });
+            // if apps instances are multi and one of the instances has rotated, ignore
+            if(app.pm2_env.instances > 1 && appMap[app.name]) return;
+
+            appMap[app.name] = app;
+
+            proceed_app(app, true);
+          });
         });
+      });
     }
 });
 
