@@ -1,11 +1,14 @@
 ## Description
 
-PM2 module to automatically rotate logs of processes managed by PM2. This is a forked version of original [pm2-logrotate](https://github.com/pm2-hive/pm2-logrotate) with some extended features.
+PM2 module to automatically rotate logs of processes managed by PM2. This is a forked version of
+original [pm2-logrotate](https://github.com/pm2-hive/pm2-logrotate) with some extended features.
 
 New features in this forked version:
-- Added new configuration flag `forced` which specifies if logs should be rotated on `rotateInterval` cron.
 
-All credits for the original rotator go to the pm2-logrotate [authors and contributors](https://github.com/pm2-hive/pm2-logrotate/graphs/contributors)
+- Added new configuration flag `forced` which specifies if logs should be rotated every time on `rotateInterval` cron.
+
+All credits for the original rotator go to the
+pm2-logrotate [authors and contributors](https://github.com/pm2-hive/pm2-logrotate/graphs/contributors)
 
 ## Install
 
@@ -15,16 +18,25 @@ All credits for the original rotator go to the pm2-logrotate [authors and contri
 
 ## Configure
 
-- `max_size` (Defaults to `10M`): When a file size becomes higher than this value it will rotate it (its possible that the worker check the file after it actually pass the limit) . You can specify the unit at then end: `10G`, `10M`, `10K`
-- `retain` (Defaults to `30` file logs): This number is the number of rotated logs that are keep at any one time, it means that if you have retain = 7 you will have at most 7 rotated logs and your current one.
+- `max_size` (Defaults to `10M`): When a file size becomes higher than this value it will rotate it (its possible that
+  the worker check the file after it actually pass the limit) . You can specify the unit at then
+  end: `10G`, `10M`, `10K`
+- `retain` (Defaults to `30` file logs): This number is the number of rotated logs that are keep at any one time, it
+  means that if you have retain = 7 you will have at most 7 rotated logs and your current one.
 - `compress` (Defaults to `false`): Enable compression via gzip for all rotated logs
 - `dateFormat` (Defaults to `YYYY-MM-DD_HH-mm-ss`) : Format of the data used the name the file of log
 - `rotateModule` (Defaults to `true`) : Rotate the log of pm2's module like other apps
-- `workerInterval` (Defaults to `30` in secs) : You can control at which interval the worker is checking the log's size (minimum is `1`)
+- `workerInterval` (Defaults to `30` in secs) : You can control at which interval the worker is checking the log's
+  size (minimum is `1`)
 - `rotateInterval` (Defaults to `0 0 * * *` everyday at midnight): This cron is used to a force rotate when executed.
-We are using [node-schedule](https://github.com/node-schedule/node-schedule) to schedule cron, so all valid cron for [node-schedule](https://github.com/node-schedule/node-schedule) is valid cron for this option. Cron style :
-- `TZ` (Defaults to system time): This is the standard [tz database timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) used to offset the log file saved. For instance, a value of `Etc/GMT+1`, with an hourly log, will save a file at hour `14` GMT with hour `13` (GMT+1) in the log name.
-- `forced` (Defaults to `true`): Enable or disable forced rotation on `rotateInterval`, if set to false, rotation of the log files will occur only when `max_size` limit is reached.
+  We are using [node-schedule](https://github.com/node-schedule/node-schedule) to schedule cron, so all valid cron
+  for [node-schedule](https://github.com/node-schedule/node-schedule) is valid cron for this option. Cron style :
+- `TZ` (Defaults to system time): This is the
+  standard [tz database timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) used to offset the log
+  file saved. For instance, a value of `Etc/GMT+1`, with an hourly log, will save a file at hour `14` GMT with
+  hour `13` (GMT+1) in the log name.
+- `forced` (Defaults to `true`): Enable or disable forced rotation on `rotateInterval`, if set to false, rotation of the
+  log files will occur only when `max_size` limit is reached.
 
 ```
 *    *    *    *    *    *
@@ -39,15 +51,17 @@ We are using [node-schedule](https://github.com/node-schedule/node-schedule) to 
 ```
 
 ### How to view current configuration of the above values ?
+
 After having installed the module, you have to type :
 `pm2 conf`
 
 ### How to set these values ?
 
- After having installed the module you have to type :
+After having installed the module you have to type :
 `pm2 set pm2-logrotate-ext:<param> <value>`
 
 e.g:
+
 - `pm2 set pm2-logrotate-ext:max_size 1K` (1KB)
 - `pm2 set pm2-logrotate-ext:compress true` (compress logs when rotated)
 - `pm2 set pm2-logrotate-ext:rotateInterval '*/1 * * * *'` (force rotate every minute)
