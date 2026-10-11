@@ -35,16 +35,22 @@ else if (process.env.HOME && !process.env.HOMEPATH)
 else if (process.env.HOME || process.env.HOMEPATH)
   PM2_ROOT_PATH = path.resolve(process.env.HOMEDRIVE, process.env.HOME || process.env.HOMEPATH, '.pm2');
 
+const parseBool = (str, defaultVal = false) => {
+  if (str === 'true') return true;
+  if (str === 'false') return false;
+  return defaultVal;
+};
+
 var WORKER_INTERVAL = isNaN(parseInt(conf.workerInterval)) ? 30 * 1000 :
   parseInt(conf.workerInterval) * 1000; // default: 30 secs
 var SIZE_LIMIT = get_limit_size(); // default : 10MB
 var ROTATE_CRON = conf.rotateInterval || "0 0 * * *"; // default : every day at midnight
 var RETAIN = isNaN(parseInt(conf.retain)) ? undefined : parseInt(conf.retain); // All
-var COMPRESSION = JSON.parse(conf.compress) || false; // Do not compress by default
+var COMPRESSION = parseBool(conf.compress, false); // Do not compress by default
 var DATE_FORMAT = conf.dateFormat || 'YYYY-MM-DD_HH-mm-ss';
 var TZ = conf.TZ;
-var ROTATE_MODULE = JSON.parse(conf.rotateModule) || true;
-var FORCED = (typeof JSON.parse(conf.forced) === 'boolean') ? JSON.parse(conf.forced) : true;
+var ROTATE_MODULE = parseBool(conf.rotateModule, true);
+var FORCED = parseBool(conf.forced, true);
 var WATCHED_FILES = [];
 
 function get_limit_size() {
@@ -63,7 +69,7 @@ function get_limit_size() {
 
 function delete_old(file) {
   if (file === "/dev/null") return;
-  var fileBaseName = file.substr(0, file.length - 4).split('/').pop() + "__";
+  var fileBaseName = path.basename(file, '.log') + "__";
   var dirName = path.dirname(file);
 
   fs.readdir(dirName, function (err, files) {
